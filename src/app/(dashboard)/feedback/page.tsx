@@ -21,7 +21,7 @@ import {
   Pagination,
   SearchInput,
 } from "@/components/ui/shared";
-import { X, Send, ChevronRight } from "lucide-react";
+import { X, Send, ChevronRight, Paperclip, FileText } from "lucide-react";
 
 const STATUS_OPTIONS = [
   "open",
@@ -392,6 +392,96 @@ function FeedbackDetailPanel({
                 </>
               )}
             </div>
+
+            {/* Attachments */}
+            {feedback.attachments && feedback.attachments.length > 0 && (
+              <div>
+                <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">
+                  Attachments ({feedback.attachments.length})
+                </div>
+                <div className="space-y-1.5">
+                  {feedback.attachments.map((att, idx) => {
+                    const url = String(att.url || att.file_url || "");
+                    const name = String(
+                      att.filename || att.name || `Attachment ${idx + 1}`,
+                    );
+                    const size = att.size
+                      ? `${(Number(att.size) / 1024).toFixed(1)} KB`
+                      : null;
+                    const mime = String(
+                      att.content_type || att.mime_type || "",
+                    );
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2.5 bg-zinc-900/40 border border-zinc-800/50 rounded-lg p-3"
+                      >
+                        <Paperclip className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          {url ? (
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-blue-400 hover:text-blue-300 truncate block"
+                            >
+                              {name}
+                            </a>
+                          ) : (
+                            <span className="text-sm text-zinc-300 truncate block">
+                              {name}
+                            </span>
+                          )}
+                          <div className="flex items-center gap-2 mt-0.5">
+                            {mime && (
+                              <span className="text-[11px] text-zinc-600">
+                                {mime}
+                              </span>
+                            )}
+                            {size && (
+                              <span className="text-[11px] text-zinc-600">
+                                {size}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Client Metadata */}
+            {feedback.client_metadata &&
+              Object.keys(feedback.client_metadata).length > 0 && (
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">
+                    Client Metadata
+                  </div>
+                  <div className="bg-zinc-900/40 border border-zinc-800/50 rounded-lg p-3.5">
+                    <div className="space-y-1">
+                      {Object.entries(feedback.client_metadata).map(
+                        ([key, val]) => (
+                          <div
+                            key={key}
+                            className="flex items-start gap-2 text-xs"
+                          >
+                            <span className="text-zinc-500 font-mono shrink-0">
+                              {key}:
+                            </span>
+                            <span className="text-zinc-300 break-all">
+                              {typeof val === "object"
+                                ? JSON.stringify(val)
+                                : String(val)}
+                            </span>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
             {/* Existing admin response */}
             {feedback.admin_response && (

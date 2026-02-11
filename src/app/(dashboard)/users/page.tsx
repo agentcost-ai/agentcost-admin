@@ -134,9 +134,11 @@ export default function UsersPage() {
         <DataTable>
           <Thead>
             <tr>
+              <Th>#</Th>
               <Th>Email</Th>
               <Th>Name</Th>
               <Th>Status</Th>
+              <Th>Badge</Th>
               <Th>Role</Th>
               <Th>Verified</Th>
               <Th>Created</Th>
@@ -147,6 +149,9 @@ export default function UsersPage() {
           <tbody>
             {users.map((u) => (
               <tr key={u.id} className="hover:bg-zinc-800/30 transition-colors">
+                <Td className="text-xs text-zinc-500 font-mono">
+                  {u.user_number ?? "--"}
+                </Td>
                 <Td>
                   <span className="font-mono text-xs">{u.email}</span>
                 </Td>
@@ -155,6 +160,13 @@ export default function UsersPage() {
                   <Badge variant={u.is_active ? "success" : "danger"}>
                     {u.is_active ? "Active" : "Disabled"}
                   </Badge>
+                </Td>
+                <Td>
+                  {u.milestone_badge ? (
+                    <MilestoneBadge badge={u.milestone_badge} />
+                  ) : (
+                    <span className="text-xs text-zinc-600">--</span>
+                  )}
                 </Td>
                 <Td>
                   {u.is_superuser ? (
@@ -208,7 +220,7 @@ export default function UsersPage() {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan={8}>
+              <td colSpan={10}>
                 <Pagination
                   total={total}
                   limit={limit}
@@ -232,4 +244,24 @@ export default function UsersPage() {
       />
     </div>
   );
+}
+
+function MilestoneBadge({ badge }: { badge: string }) {
+  const configs: Record<
+    string,
+    {
+      label: string;
+      variant: "warning" | "info" | "success" | "danger" | "default";
+    }
+  > = {
+    top_20: { label: "Top 20", variant: "danger" },
+    top_50: { label: "Top 50", variant: "warning" },
+    top_100: { label: "Top 100", variant: "info" },
+    top_1000: { label: "Top 1000", variant: "success" },
+  };
+  const config = configs[badge] || {
+    label: badge.replace(/_/g, " "),
+    variant: "default" as const,
+  };
+  return <Badge variant={config.variant}>{config.label}</Badge>;
 }

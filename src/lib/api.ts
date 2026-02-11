@@ -198,6 +198,8 @@ export interface AdminUser {
   is_active: boolean;
   is_superuser: boolean;
   email_verified: boolean;
+  user_number: number | null;
+  milestone_badge: string | null;
   created_at: string | null;
   last_login_at: string | null;
 }
@@ -240,6 +242,8 @@ export interface UserDetail {
   is_superuser: boolean;
   email_verified: boolean;
   admin_notes: string | null;
+  user_number: number | null;
+  milestone_badge: string | null;
   created_at: string | null;
   last_login_at: string | null;
   active_sessions: number;
@@ -250,6 +254,13 @@ export interface UserDetail {
     created_at: string | null;
   }[];
   memberships: { project_id: string; project_name: string; role: string }[];
+  milestones: {
+    id: string;
+    milestone_type: string;
+    milestone_name: string;
+    milestone_description: string | null;
+    achieved_at: string | null;
+  }[];
   usage: { total_events: number; total_tokens: number; total_cost: number };
 }
 
@@ -483,6 +494,45 @@ export async function syncOpenrouterPricing(): Promise<
   Record<string, unknown>
 > {
   return request("/v1/admin/pricing/sync/openrouter", { method: "POST" });
+}
+
+// ---------------------------------------------------------------------------
+// Pricing Sync History
+// ---------------------------------------------------------------------------
+
+export interface PricingSyncLogEntry {
+  id: string;
+  admin_id: string | null;
+  source: string;
+  status: string;
+  models_created: number;
+  models_updated: number;
+  models_skipped: number;
+  new_models: Record<string, unknown>[] | null;
+  price_changes: Record<string, unknown>[] | null;
+  capability_changes: Record<string, unknown>[] | null;
+  error_message: string | null;
+  duration_ms: number | null;
+  created_at: string | null;
+}
+
+export interface PricingSyncHistoryResponse {
+  items: PricingSyncLogEntry[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export async function getPricingSyncHistory(params: {
+  source?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PricingSyncHistoryResponse> {
+  const qs = new URLSearchParams();
+  if (params.source) qs.set("source", params.source);
+  if (params.limit) qs.set("limit", String(params.limit));
+  if (params.offset) qs.set("offset", String(params.offset));
+  return request(`/v1/admin/pricing/sync-history?${qs.toString()}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -737,6 +787,8 @@ export async function listFeedback(params: {
 export interface AdminFeedbackDetail extends AdminFeedback {
   environment: string | null;
   is_confidential: boolean;
+  attachments: Record<string, unknown>[] | null;
+  client_metadata: Record<string, unknown> | null;
   comments: {
     id: string;
     user_name: string | null;

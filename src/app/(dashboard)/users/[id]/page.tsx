@@ -226,7 +226,7 @@ export default function UserDetailPage() {
       />
 
       {/* Status badges */}
-      <div className="flex items-center gap-2 mb-6">
+      <div className="flex flex-wrap items-center gap-2 mb-6">
         <Badge variant={user.is_active ? "success" : "danger"}>
           {user.is_active ? "Active" : "Disabled"}
         </Badge>
@@ -234,6 +234,9 @@ export default function UserDetailPage() {
         <Badge variant={user.email_verified ? "success" : "default"}>
           {user.email_verified ? "Email Verified" : "Unverified"}
         </Badge>
+        {user.milestone_badge && (
+          <MilestoneBadgeDisplay badge={user.milestone_badge} />
+        )}
         <span className="text-xs text-zinc-500 ml-2">
           {user.active_sessions} active session(s)
         </span>
@@ -307,6 +310,14 @@ export default function UserDetailPage() {
               <span className="text-zinc-500">ID</span>
               <span className="font-mono text-xs text-zinc-400">{user.id}</span>
             </div>
+            {user.user_number != null && (
+              <div className="flex justify-between">
+                <span className="text-zinc-500">User #</span>
+                <span className="font-mono text-xs text-zinc-300">
+                  #{user.user_number}
+                </span>
+              </div>
+            )}
             <div className="flex justify-between">
               <span className="text-zinc-500">Created</span>
               <span className="text-zinc-300">
@@ -349,6 +360,37 @@ export default function UserDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Milestones */}
+      {user.milestones && user.milestones.length > 0 && (
+        <div className="mb-6">
+          <h3 className="text-xs uppercase tracking-wider text-zinc-500 mb-3">
+            Milestones
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {user.milestones.map((m, idx) => (
+              <div
+                key={idx}
+                className="flex items-center gap-3 border border-zinc-800/50 rounded-xl p-4 bg-zinc-900/30"
+              >
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-zinc-200">
+                    {m.milestone_name || m.milestone_type.replace(/_/g, " ")}
+                  </div>
+                  {m.milestone_description && (
+                    <div className="text-xs text-zinc-400 mt-0.5">
+                      {m.milestone_description}
+                    </div>
+                  )}
+                </div>
+                <div className="text-[11px] text-zinc-600">
+                  {formatDate(m.achieved_at)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Owned Projects */}
       {user.owned_projects.length > 0 && (
@@ -430,4 +472,24 @@ export default function UserDetailPage() {
       />
     </div>
   );
+}
+
+function MilestoneBadgeDisplay({ badge }: { badge: string }) {
+  const configs: Record<
+    string,
+    {
+      label: string;
+      variant: "warning" | "info" | "success" | "danger" | "default";
+    }
+  > = {
+    top_20: { label: "Top 20", variant: "danger" },
+    top_50: { label: "Top 50", variant: "warning" },
+    top_100: { label: "Top 100", variant: "info" },
+    top_1000: { label: "Top 1000", variant: "success" },
+  };
+  const config = configs[badge] || {
+    label: badge.replace(/_/g, " "),
+    variant: "default" as const,
+  };
+  return <Badge variant={config.variant}>{config.label}</Badge>;
 }
