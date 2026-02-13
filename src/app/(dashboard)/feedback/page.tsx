@@ -401,7 +401,7 @@ function FeedbackDetailPanel({
                 </div>
                 <div className="space-y-1.5">
                   {feedback.attachments.map((att, idx) => {
-                    const url = String(att.url || att.file_url || "");
+                    const storedName = String(att.stored_name || "");
                     const name = String(
                       att.filename || att.name || `Attachment ${idx + 1}`,
                     );
@@ -409,8 +409,36 @@ function FeedbackDetailPanel({
                       ? `${(Number(att.size) / 1024).toFixed(1)} KB`
                       : null;
                     const mime = String(
-                      att.content_type || att.mime_type || "",
+                      att.content_type || att.type || att.mime_type || "",
                     );
+
+                    const handleDownload = async () => {
+                      if (!storedName) return;
+                      try {
+                        const apiBase =
+                          process.env.NEXT_PUBLIC_API_URL ||
+                          "http://localhost:8000";
+                        const token =
+                          localStorage.getItem("admin_access_token");
+                        const res = await fetch(
+                          `${apiBase}/v1/attachments/${storedName}`,
+                          {
+                            headers: token
+                              ? { Authorization: `Bearer ${token}` }
+                              : {},
+                          },
+                        );
+                        if (!res.ok) throw new Error("Download failed");
+                        const blob = await res.blob();
+                        const blobUrl = URL.createObjectURL(blob);
+                        window.open(blobUrl, "_blank");
+                        // Clean up after a delay
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+                      } catch {
+                        alert("Failed to download attachment");
+                      }
+                    };
+
                     return (
                       <div
                         key={idx}
@@ -418,15 +446,14 @@ function FeedbackDetailPanel({
                       >
                         <Paperclip className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
                         <div className="flex-1 min-w-0">
-                          {url ? (
-                            <a
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-sm text-blue-400 hover:text-blue-300 truncate block"
+                          {storedName ? (
+                            <button
+                              type="button"
+                              onClick={handleDownload}
+                              className="text-sm text-blue-400 hover:text-blue-300 truncate block text-left cursor-pointer"
                             >
                               {name}
-                            </a>
+                            </button>
                           ) : (
                             <span className="text-sm text-zinc-300 truncate block">
                               {name}

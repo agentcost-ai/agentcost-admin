@@ -49,7 +49,7 @@ export default function LoginPage() {
         {/* Brand header */}
         <div className="mb-10 text-center">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/20 mb-5">
-            <Shield className="w-5 h-5 text-blue-400" />
+            <Shield className="w-5 h-5 text-blue-400" aria-hidden="true" />
           </div>
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-[0.2em]">
@@ -66,14 +66,21 @@ export default function LoginPage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-5 px-4 py-3 text-sm bg-red-500/8 border border-red-500/20 rounded-xl text-red-400 flex items-start gap-2">
+          <div
+            role="alert"
+            className="mb-5 px-4 py-3 text-sm bg-red-500/8 border border-red-500/20 rounded-xl text-red-400 flex items-start gap-2"
+          >
             <div className="w-1 h-1 rounded-full bg-red-400 mt-2 shrink-0" />
             {error}
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          onSubmit={handleSubmit}
+          aria-label="Admin login"
+          className="space-y-5"
+        >
           <div>
             <label
               htmlFor="email"

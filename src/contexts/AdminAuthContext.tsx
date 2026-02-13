@@ -86,7 +86,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         id: data.user.id,
         email: data.user.email,
         name: data.user.name,
-        is_superuser: true,
+        is_superuser: data.user.is_superuser ?? true,
       });
 
       router.replace("/");

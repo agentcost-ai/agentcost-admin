@@ -6,6 +6,13 @@
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+if (typeof window !== "undefined" && API_BASE === "http://localhost:8000") {
+  console.warn(
+    "[AgentCost Admin] NEXT_PUBLIC_API_URL is not set — defaulting to http://localhost:8000. " +
+      "Set NEXT_PUBLIC_API_URL in your environment for production.",
+  );
+}
+
 class AdminApiError extends Error {
   status: number;
   constructor(message: string, status: number) {
@@ -25,7 +32,23 @@ function getRefreshToken(): string | null {
   return localStorage.getItem("admin_refresh_token");
 }
 
+// M8 fix: mutex to prevent concurrent token refresh storms
+let refreshPromise: Promise<string | null> | null = null;
+
 async function refreshAccessToken(): Promise<string | null> {
+  if (refreshPromise) {
+    return refreshPromise;
+  }
+
+  refreshPromise = doRefreshAccessToken();
+  try {
+    return await refreshPromise;
+  } finally {
+    refreshPromise = null;
+  }
+}
+
+async function doRefreshAccessToken(): Promise<string | null> {
   const refreshToken = getRefreshToken();
   if (!refreshToken) return null;
 
