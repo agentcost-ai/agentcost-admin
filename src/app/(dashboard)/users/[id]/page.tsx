@@ -61,7 +61,7 @@ export default function UserDetailPage() {
     open: boolean;
     title: string;
     message: string;
-    action: () => Promise<void>;
+    action: () => Promise<unknown>;
     variant?: "danger" | "primary";
     confirmLabel?: string;
   }>({ open: false, title: "", message: "", action: async () => {} });
@@ -87,8 +87,11 @@ export default function UserDetailPage() {
   async function executeModal() {
     setModalLoading(true);
     try {
-      await modal.action();
-      loadUser();
+      const result = await modal.action();
+      // If the action signals "deleted", skip reloading (user no longer exists)
+      if (result !== "deleted") {
+        loadUser();
+      }
     } catch (err) {
       console.error("Action failed:", err);
     } finally {
@@ -213,6 +216,7 @@ export default function UserDetailPage() {
                     action: async () => {
                       await deleteUser(userId);
                       router.push("/users");
+                      return "deleted" as const;
                     },
                   })
                 }

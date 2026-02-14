@@ -96,7 +96,7 @@ export default function LoginPage() {
               required
               autoFocus
               className="w-full px-4 py-2.5 text-sm bg-zinc-900/80 border border-zinc-800 rounded-lg text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20"
-              placeholder="admin@agentcost.dev"
+              placeholder="admin@example.com"
             />
           </div>
 
