@@ -211,6 +211,40 @@ export async function getPlatformTimeseries(
 }
 
 // ---------------------------------------------------------------------------
+// Demo analytics
+// ---------------------------------------------------------------------------
+
+export interface DemoStats {
+  total_sessions: number;
+  sessions_24h: number;
+  sessions_7d: number;
+  sessions_30d: number;
+  signup_clicks: number;
+  conversions: number;
+  click_through_rate: number;
+  conversion_rate: number;
+  avg_page_views: number;
+  top_sources: { source: string; sessions: number }[];
+  top_pages: { page: string; views: number }[];
+}
+
+export async function getDemoStats(): Promise<DemoStats> {
+  return request("/v1/admin/demo/stats");
+}
+
+export interface DemoTimeseriesPoint {
+  date: string;
+  sessions: number;
+  conversions: number;
+}
+
+export async function getDemoTimeseries(
+  range = "30d",
+): Promise<DemoTimeseriesPoint[]> {
+  return request(`/v1/admin/demo/timeseries?range=${range}`);
+}
+
+// ---------------------------------------------------------------------------
 // Users
 // ---------------------------------------------------------------------------
 

@@ -15,6 +15,7 @@ import {
   ScrollText,
   LogOut,
   Shield,
+  Play,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +25,7 @@ const NAV_SECTIONS = [
     items: [
       { href: "/", label: "Overview", icon: LayoutDashboard },
       { href: "/analytics", label: "Analytics", icon: BarChart3 },
+      { href: "/demo-analytics", label: "Demo Funnel", icon: Play },
     ],
   },
   {
