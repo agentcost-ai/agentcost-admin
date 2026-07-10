@@ -38,7 +38,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-zinc-950 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-zinc-950 relative overflow-hidden">
       {/* Subtle background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.015)_1px,transparent_1px)] bg-size-[64px_64px]" />
 
@@ -71,7 +71,7 @@ export default function LoginPage() {
             className="mb-5 px-4 py-3 text-sm bg-red-500/8 border border-red-500/20 rounded-xl text-red-400 flex items-start gap-2"
           >
             <div className="w-1 h-1 rounded-full bg-red-400 mt-2 shrink-0" />
-            {error}
+            <span className="min-w-0 wrap-break-word">{error}</span>
           </div>
         )}
 

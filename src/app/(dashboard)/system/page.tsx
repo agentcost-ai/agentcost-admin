@@ -64,7 +64,7 @@ export default function SystemPage() {
   if (!health) return null;
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="System Monitoring"
         description="Infrastructure health and ingestion metrics"
@@ -104,7 +104,7 @@ export default function SystemPage() {
 
       {/* Table counts & health signals */}
       <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
+        <div className="min-w-0">
           <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Table Row Counts
           </h3>
@@ -132,7 +132,7 @@ export default function SystemPage() {
           </DataTable>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Health Signals
           </h3>
@@ -153,9 +153,11 @@ export default function SystemPage() {
                 {health.database.connected ? "Connected" : "Disconnected"}
               </Badge>
             </div>
-            <div className="flex items-center justify-between px-3 py-2.5 bg-zinc-900/30 border border-zinc-800/50 rounded-lg">
-              <span className="text-xs text-zinc-400">Last Event Ingested</span>
-              <span className="text-xs text-zinc-300 font-mono">
+            <div className="flex items-center justify-between gap-3 px-3 py-2.5 bg-zinc-900/30 border border-zinc-800/50 rounded-lg">
+              <span className="text-xs text-zinc-400 shrink-0">
+                Last Event Ingested
+              </span>
+              <span className="text-xs text-zinc-300 font-mono text-right">
                 {health.ingestion.last_event_at
                   ? formatDateTime(health.ingestion.last_event_at)
                   : "None"}
@@ -197,7 +199,7 @@ export default function SystemPage() {
           <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Ingestion Throughput
           </h3>
-          <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5">
+          <div className="min-w-0 bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-4 sm:p-5">
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={ingestion}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />

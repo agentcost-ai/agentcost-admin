@@ -61,14 +61,14 @@ export default function IncidentsPage() {
   }
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Incidents"
         description="Failed events and user-reported issues"
       />
 
       {/* Tabs */}
-      <div className="flex items-center gap-0 mb-5 border-b border-zinc-800/50">
+      <div className="flex items-center gap-0 mb-5 border-b border-zinc-800/50 overflow-x-auto">
         {(
           [
             { key: "failed", label: "Failed Events", count: failedTotal },
@@ -82,7 +82,7 @@ export default function IncidentsPage() {
           <button
             key={t.key}
             onClick={() => switchTab(t.key)}
-            className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors ${
+            className={`shrink-0 whitespace-nowrap px-4 py-2.5 min-h-10 sm:min-h-0 text-xs font-medium border-b-2 transition-colors ${
               tab === t.key
                 ? "border-blue-500 text-blue-400"
                 : "border-transparent text-zinc-500 hover:text-zinc-300"

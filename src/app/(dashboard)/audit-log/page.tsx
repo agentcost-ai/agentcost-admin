@@ -80,18 +80,18 @@ export default function AuditLogPage() {
   }, [actionFilter, targetFilter]);
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Audit Log"
         description="Immutable record of all admin operations"
       />
 
       {/* Filters */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex flex-wrap items-center gap-2 mb-4">
         <select
           value={targetFilter}
           onChange={(e) => setTargetFilter(e.target.value)}
-          className="px-3 py-2 text-sm bg-zinc-900/80 border border-zinc-800 rounded-lg text-zinc-200 focus:outline-none focus:border-blue-500/50"
+          className="max-w-full px-3 py-2 text-sm bg-zinc-900/80 border border-zinc-800 rounded-lg text-zinc-200 focus:outline-none focus:border-blue-500/50"
         >
           <option value="">All targets</option>
           <option value="user">User</option>
@@ -102,7 +102,7 @@ export default function AuditLogPage() {
         <select
           value={actionFilter}
           onChange={(e) => setActionFilter(e.target.value)}
-          className="px-3 py-2 text-sm bg-zinc-900/80 border border-zinc-800 rounded-lg text-zinc-200 focus:outline-none focus:border-blue-500/50"
+          className="max-w-full px-3 py-2 text-sm bg-zinc-900/80 border border-zinc-800 rounded-lg text-zinc-200 focus:outline-none focus:border-blue-500/50"
         >
           <option value="">All actions</option>
           {Object.entries(ACTION_TYPE_LABELS).map(([key, label]) => (
@@ -220,7 +220,7 @@ function DetailsCell({ details }: { details: Record<string, unknown> }) {
         {expanded ? "Collapse" : `${keys.length} fields -- expand`}
       </button>
       {expanded && (
-        <pre className="mt-1 text-[11px] text-zinc-500 font-mono bg-zinc-900/50 rounded p-2 max-h-40 overflow-auto whitespace-pre-wrap">
+        <pre className="mt-1 text-[11px] text-zinc-500 font-mono bg-zinc-900/50 rounded p-2 max-h-40 overflow-auto whitespace-pre-wrap break-all">
           {JSON.stringify(details, null, 2)}
         </pre>
       )}

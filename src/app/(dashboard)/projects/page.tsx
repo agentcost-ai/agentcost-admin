@@ -79,7 +79,7 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Projects & API Keys"
         description={`${total} total projects`}
@@ -93,7 +93,7 @@ export default function ProjectsPage() {
             setOffset(0);
           }}
           placeholder="Search by name or owner email..."
-          className="w-72"
+          className="w-full sm:w-72 min-w-0"
         />
       </div>
 

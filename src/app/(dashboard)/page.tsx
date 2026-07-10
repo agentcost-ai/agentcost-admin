@@ -60,13 +60,13 @@ export default function OverviewPage() {
 
   if (loading && !stats)
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <LoadingState />
       </div>
     );
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Platform Overview"
         description="Aggregated metrics across all tenants"
@@ -83,7 +83,7 @@ export default function OverviewPage() {
 
       {/* Stat cards */}
       {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
           <StatCard
             label="Total Users"
             value={formatNumber(stats.total_users)}
@@ -117,7 +117,7 @@ export default function OverviewPage() {
           <button
             key={r}
             onClick={() => setRange(r)}
-            className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+            className={`px-3 py-1.5 min-h-10 sm:min-h-0 text-xs rounded-lg border transition-colors ${
               range === r
                 ? "bg-blue-500/10 text-blue-400 border-blue-500/25"
                 : "text-zinc-500 border-zinc-800/60 hover:text-zinc-300 hover:border-zinc-700"
@@ -131,7 +131,7 @@ export default function OverviewPage() {
       {/* Charts */}
       {timeseries.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <SectionCard title="Events / Day">
+          <SectionCard title="Events / Day" className="min-w-0">
             <ResponsiveContainer width="100%" height={220}>
               <AreaChart data={timeseries}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
@@ -153,7 +153,7 @@ export default function OverviewPage() {
             </ResponsiveContainer>
           </SectionCard>
 
-          <SectionCard title="Cost Growth">
+          <SectionCard title="Cost Growth" className="min-w-0">
             <ResponsiveContainer width="100%" height={220}>
               <AreaChart data={timeseries}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
@@ -184,7 +184,7 @@ export default function OverviewPage() {
             </ResponsiveContainer>
           </SectionCard>
 
-          <SectionCard title="Token Volume" className="lg:col-span-2">
+          <SectionCard title="Token Volume" className="lg:col-span-2 min-w-0">
             <ResponsiveContainer width="100%" height={220}>
               <AreaChart data={timeseries}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />

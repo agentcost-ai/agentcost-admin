@@ -122,7 +122,7 @@ export default function FeedbackPage() {
   }
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Feedback Management"
         description={`${total} feedback items`}
@@ -134,7 +134,7 @@ export default function FeedbackPage() {
           value={search}
           onChange={setSearch}
           placeholder="Search title or description..."
-          className="w-64"
+          className="w-full sm:w-64 min-w-0"
         />
         <select
           value={statusFilter}
@@ -321,7 +321,7 @@ function FeedbackDetailPanel({
       />
       <div className="relative w-full max-w-xl bg-zinc-950 border-l border-zinc-800/50 overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-zinc-950 border-b border-zinc-800/50 px-5 py-4 flex items-start justify-between z-10">
+        <div className="sticky top-0 bg-zinc-950 border-b border-zinc-800/50 px-4 sm:px-5 py-4 flex items-start justify-between z-10">
           <div className="flex-1 min-w-0">
             <div className="text-xs uppercase tracking-wider text-zinc-500 mb-1">
               Feedback Detail
@@ -339,11 +339,11 @@ function FeedbackDetailPanel({
         </div>
 
         {loading || !feedback ? (
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <LoadingState />
           </div>
         ) : (
-          <div className="p-5 space-y-5">
+          <div className="p-4 sm:p-5 space-y-5">
             {/* Badges */}
             <div className="flex flex-wrap gap-2">
               <Badge variant="info">{typeLabel(feedback.type)}</Badge>
@@ -633,8 +633,8 @@ function FeedbackDetailPanel({
                       key={c.id}
                       className="bg-zinc-900/40 border border-zinc-800/50 rounded-lg p-3.5"
                     >
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-medium text-zinc-300">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="text-xs font-medium text-zinc-300 min-w-0 truncate">
                           {c.user_name || "Anonymous"}
                         </span>
                         {c.is_admin && <Badge variant="info">Admin</Badge>}

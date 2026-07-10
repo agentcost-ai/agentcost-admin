@@ -101,7 +101,7 @@ export default function AnalyticsPage() {
   if (loading) return <LoadingState />;
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Platform Analytics"
         description="Cross-tenant usage patterns and cost distribution"
@@ -111,7 +111,7 @@ export default function AnalyticsPage() {
               <button
                 key={opt.value}
                 onClick={() => setRange(opt.value)}
-                className={`px-3 py-1.5 text-xs transition-colors ${
+                className={`px-3 py-1.5 min-h-10 sm:min-h-0 text-xs transition-colors ${
                   range === opt.value
                     ? "bg-blue-500/15 text-blue-400"
                     : "text-zinc-500 hover:text-zinc-300"
@@ -126,7 +126,7 @@ export default function AnalyticsPage() {
 
       {/* Cost per user summary */}
       {costPerUser && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
           <StatCard
             label="Total Platform Cost"
             value={formatCost(costPerUser.total_cost)}
@@ -148,7 +148,7 @@ export default function AnalyticsPage() {
           <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Provider Usage Over Time
           </h3>
-          <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5">
+          <div className="min-w-0 bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-4 sm:p-5">
             <ResponsiveContainer width="100%" height={280}>
               <AreaChart data={growthChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
@@ -191,7 +191,7 @@ export default function AnalyticsPage() {
 
       {/* Top models & top spenders side by side */}
       <div className="grid lg:grid-cols-2 gap-6">
-        <div>
+        <div className="min-w-0">
           <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Top Models by Usage
           </h3>
@@ -240,7 +240,7 @@ export default function AnalyticsPage() {
           </DataTable>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Top Spenders
           </h3>

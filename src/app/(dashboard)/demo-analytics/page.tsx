@@ -60,13 +60,13 @@ export default function DemoAnalyticsPage() {
 
   if (loading && !stats)
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <LoadingState />
       </div>
     );
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Demo Funnel"
         description="No-signup demo usage and demo → signup conversion"
@@ -121,7 +121,7 @@ export default function DemoAnalyticsPage() {
           <button
             key={r}
             onClick={() => setRange(r)}
-            className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+            className={`px-3 py-1.5 min-h-10 sm:min-h-0 text-xs rounded-lg border transition-colors ${
               range === r
                 ? "bg-blue-500/10 text-blue-400 border-blue-500/25"
                 : "text-zinc-500 border-zinc-800/60 hover:text-zinc-300 hover:border-zinc-700"
@@ -134,7 +134,7 @@ export default function DemoAnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Sessions + conversions chart */}
-        <SectionCard title="Demo Sessions / Day" className="lg:col-span-2">
+        <SectionCard title="Demo Sessions / Day" className="lg:col-span-2 min-w-0">
           {timeseries.length > 0 ? (
             <ResponsiveContainer width="100%" height={240}>
               <AreaChart data={timeseries}>
@@ -170,16 +170,18 @@ export default function DemoAnalyticsPage() {
         </SectionCard>
 
         {/* Entry sources */}
-        <SectionCard title="Entry Sources (30d)">
+        <SectionCard title="Entry Sources (30d)" className="min-w-0">
           {stats && stats.top_sources.length > 0 ? (
             <div className="space-y-2">
               {stats.top_sources.map((s) => (
                 <div
                   key={s.source}
-                  className="flex items-center justify-between text-[13px]"
+                  className="flex items-center justify-between gap-3 text-[13px]"
                 >
-                  <span className="text-zinc-300 font-mono">{s.source}</span>
-                  <span className="text-zinc-500">
+                  <span className="text-zinc-300 font-mono truncate">
+                    {s.source}
+                  </span>
+                  <span className="text-zinc-500 shrink-0">
                     {formatNumber(s.sessions)} sessions
                   </span>
                 </div>
@@ -193,16 +195,18 @@ export default function DemoAnalyticsPage() {
         </SectionCard>
 
         {/* Most explored pages */}
-        <SectionCard title="Most Explored Pages (30d)">
+        <SectionCard title="Most Explored Pages (30d)" className="min-w-0">
           {stats && stats.top_pages.length > 0 ? (
             <div className="space-y-2">
               {stats.top_pages.map((p) => (
                 <div
                   key={p.page}
-                  className="flex items-center justify-between text-[13px]"
+                  className="flex items-center justify-between gap-3 text-[13px]"
                 >
-                  <span className="text-zinc-300 font-mono">{p.page}</span>
-                  <span className="text-zinc-500">
+                  <span className="text-zinc-300 font-mono truncate">
+                    {p.page}
+                  </span>
+                  <span className="text-zinc-500 shrink-0">
                     {formatNumber(p.views)} sessions
                   </span>
                 </div>

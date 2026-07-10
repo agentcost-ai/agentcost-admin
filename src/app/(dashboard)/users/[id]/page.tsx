@@ -131,15 +131,20 @@ export default function UserDetailPage() {
 
   if (loading)
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <LoadingState />
       </div>
     );
   if (!user)
-    return <div className="p-6 text-sm text-zinc-500">User not found</div>;
+    return (
+      <div className="p-4 sm:p-6 text-sm text-zinc-500">User not found</div>
+    );
 
   return (
-    <div className="p-6 max-w-350">
+    // [&_h1]:wrap-break-word -- the PageHeader title is the raw email
+    // (unbreakable token) and must wrap instead of forcing horizontal scroll
+    // on mobile.
+    <div className="p-4 sm:p-6 max-w-350 [&_h1]:wrap-break-word">
       <button
         onClick={() => router.back()}
         className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 mb-4 transition-colors"
@@ -151,7 +156,7 @@ export default function UserDetailPage() {
         title={user.email}
         description={user.name || "No display name set"}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setShowEmail(!showEmail)}
               className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-zinc-400 border border-zinc-800 rounded hover:text-zinc-200 transition-colors"
@@ -248,8 +253,8 @@ export default function UserDetailPage() {
 
       {/* Email panel */}
       {showEmail && (
-        <div className="mb-6 border border-zinc-800/50 rounded-xl p-5 bg-zinc-900/30">
-          <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-3">
+        <div className="mb-6 border border-zinc-800/50 rounded-xl p-4 sm:p-5 bg-zinc-900/30">
+          <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-3 break-all">
             Send Email to {user.email}
           </div>
           <div className="space-y-3">
@@ -304,15 +309,17 @@ export default function UserDetailPage() {
       </div>
 
       {/* Metadata */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="border border-zinc-800/50 rounded-xl p-5 bg-zinc-900/30">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+        <div className="border border-zinc-800/50 rounded-xl p-4 sm:p-5 bg-zinc-900/30">
           <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Account Details
           </div>
           <div className="space-y-1.5 text-sm">
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               <span className="text-zinc-500">ID</span>
-              <span className="font-mono text-xs text-zinc-400">{user.id}</span>
+              <span className="font-mono text-xs text-zinc-400 break-all text-right">
+                {user.id}
+              </span>
             </div>
             {user.user_number != null && (
               <div className="flex justify-between">
@@ -338,7 +345,7 @@ export default function UserDetailPage() {
         </div>
 
         {/* Admin notes */}
-        <div className="border border-zinc-800/50 rounded-xl p-5 bg-zinc-900/30">
+        <div className="border border-zinc-800/50 rounded-xl p-4 sm:p-5 bg-zinc-900/30">
           <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Admin Notes (Internal)
           </div>

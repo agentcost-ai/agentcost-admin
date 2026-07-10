@@ -69,15 +69,19 @@ export default function ProjectDetailPage() {
 
   if (loading)
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <LoadingState />
       </div>
     );
   if (!project)
-    return <div className="p-6 text-sm text-zinc-500">Project not found</div>;
+    return (
+      <div className="p-4 sm:p-6 text-sm text-zinc-500">Project not found</div>
+    );
 
   return (
-    <div className="p-6 max-w-350">
+    // [&_h1]:wrap-break-word -- the PageHeader title is the raw project name,
+    // which may be a long unbreakable token that would overflow on mobile.
+    <div className="p-4 sm:p-6 max-w-350 [&_h1]:wrap-break-word">
       <button
         onClick={() => router.back()}
         className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 mb-4 transition-colors"
@@ -89,7 +93,7 @@ export default function ProjectDetailPage() {
         title={project.name}
         description={project.description || "No description"}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() =>
                 setModal({
@@ -162,12 +166,12 @@ export default function ProjectDetailPage() {
         }
       />
 
-      <div className="flex items-center gap-2 mb-6">
+      <div className="flex flex-wrap items-center gap-2 mb-6">
         <Badge variant={project.is_active ? "success" : "danger"}>
           {project.is_active ? "Active" : "Frozen"}
         </Badge>
         {project.key_prefix && (
-          <code className="text-[11px] text-zinc-500 bg-zinc-800/50 px-1.5 py-0.5 rounded">
+          <code className="text-[11px] text-zinc-500 bg-zinc-800/50 px-1.5 py-0.5 rounded break-all">
             {project.key_prefix}
           </code>
         )}
@@ -191,21 +195,21 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* Metadata */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="border border-zinc-800/50 rounded-xl p-5 bg-zinc-900/30">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+        <div className="border border-zinc-800/50 rounded-xl p-4 sm:p-5 bg-zinc-900/30">
           <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium mb-3">
             Project Info
           </div>
           <div className="space-y-1.5 text-sm">
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               <span className="text-zinc-500">ID</span>
-              <span className="font-mono text-xs text-zinc-400">
+              <span className="font-mono text-xs text-zinc-400 break-all text-right">
                 {project.id}
               </span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               <span className="text-zinc-500">Owner</span>
-              <span className="text-zinc-300">
+              <span className="text-zinc-300 min-w-0 text-right wrap-break-word">
                 {project.owner
                   ? `${project.owner.email}${project.owner.name ? ` (${project.owner.name})` : ""}`
                   : "--"}

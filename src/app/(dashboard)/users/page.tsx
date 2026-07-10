@@ -107,7 +107,7 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="User Management"
         description={`${total} total users registered`}
@@ -122,7 +122,7 @@ export default function UsersPage() {
             setOffset(0);
           }}
           placeholder="Search by email or name..."
-          className="w-72"
+          className="w-full sm:w-72 min-w-0"
         />
       </div>
 

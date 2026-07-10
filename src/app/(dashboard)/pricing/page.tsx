@@ -152,12 +152,12 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="p-6 max-w-350">
+    <div className="p-4 sm:p-6 max-w-350">
       <PageHeader
         title="Pricing Intelligence"
         description={`${total} model pricing records`}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => {
                 setShowHistory(!showHistory);
@@ -240,7 +240,7 @@ export default function PricingPage() {
                     : "border-zinc-800/50 bg-zinc-900/30 text-zinc-400 hover:border-zinc-700"
                 }`}
               >
-                <div className="text-xs font-medium capitalize">
+                <div className="text-xs font-medium capitalize truncate">
                   {p.provider}
                 </div>
                 <div className="text-[11px] text-zinc-500 mt-0.5">
@@ -253,7 +253,7 @@ export default function PricingPage() {
       )}
 
       {/* Filters */}
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex flex-wrap items-center gap-3 mb-4">
         <SearchInput
           value={search}
           onChange={(v) => {
@@ -261,7 +261,7 @@ export default function PricingPage() {
             setOffset(0);
           }}
           placeholder="Search models..."
-          className="w-72"
+          className="w-full sm:w-72 min-w-0"
         />
         {providerFilter && (
           <button
@@ -446,14 +446,14 @@ function SyncResultPanel({
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800/30">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-zinc-800/30">
+        <div className="flex items-center gap-3 min-w-0">
           {isError ? (
-            <AlertTriangle className="w-4 h-4 text-red-400" />
+            <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
           ) : (
-            <CheckCircle className="w-4 h-4 text-emerald-400" />
+            <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
           )}
-          <div>
+          <div className="min-w-0">
             <div className="text-sm font-medium text-zinc-200">
               {isError
                 ? "Sync Failed"
@@ -466,7 +466,10 @@ function SyncResultPanel({
             </div>
           </div>
         </div>
-        <button onClick={onClose} className="text-zinc-500 hover:text-zinc-300">
+        <button
+          onClick={onClose}
+          className="text-zinc-500 hover:text-zinc-300 shrink-0"
+        >
           <X className="w-4 h-4" />
         </button>
       </div>
@@ -485,10 +488,10 @@ function SyncResultPanel({
                 {newModels.slice(0, 20).map((m, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between text-xs py-1.5 px-2 rounded bg-zinc-900/40"
+                    className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs py-1.5 px-2 rounded bg-zinc-900/40"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-zinc-200">
+                    <div className="flex flex-wrap items-center gap-2 min-w-0">
+                      <span className="font-mono text-zinc-200 break-all">
                         {String(m.model)}
                       </span>
                       <Badge>{String(m.provider)}</Badge>
@@ -519,15 +522,15 @@ function SyncResultPanel({
                 {priceChanges.slice(0, 20).map((c, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between text-xs py-1.5 px-2 rounded bg-zinc-900/40"
+                    className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs py-1.5 px-2 rounded bg-zinc-900/40"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-zinc-200">
+                    <div className="flex flex-wrap items-center gap-2 min-w-0">
+                      <span className="font-mono text-zinc-200 break-all">
                         {String(c.model)}
                       </span>
                       <Badge>{String(c.provider)}</Badge>
                     </div>
-                    <div className="flex items-center gap-3 text-zinc-400 font-mono">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-zinc-400 font-mono">
                       <span>
                         In: ${Number(c.old_input ?? 0).toFixed(6)} &rarr; $
                         {Number(c.new_input ?? 0).toFixed(6)}
@@ -579,9 +582,9 @@ function SyncResultPanel({
                 {capChanges.map((c, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between text-xs py-1.5 px-2 rounded bg-zinc-900/40"
+                    className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs py-1.5 px-2 rounded bg-zinc-900/40"
                   >
-                    <span className="font-mono text-zinc-200">
+                    <span className="font-mono text-zinc-200 break-all min-w-0">
                       {String(c.model)}
                     </span>
                     <span className="text-zinc-400">
@@ -661,7 +664,7 @@ function SyncHistoryEntry({ entry }: { entry: PricingSyncLogEntry }) {
     <div className="border border-zinc-800/30 rounded-lg overflow-hidden">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center gap-3 w-full px-3 py-2.5 text-left hover:bg-zinc-800/20 transition-colors"
+        className="flex flex-wrap items-center gap-x-3 gap-y-1 w-full px-3 py-2.5 text-left hover:bg-zinc-800/20 transition-colors"
       >
         <Badge
           variant={
@@ -705,7 +708,10 @@ function SyncHistoryEntry({ entry }: { entry: PricingSyncLogEntry }) {
               </div>
               <div className="space-y-0.5">
                 {entry.new_models.slice(0, 10).map((m, i) => (
-                  <div key={i} className="text-[11px] text-zinc-400 font-mono">
+                  <div
+                    key={i}
+                    className="text-[11px] text-zinc-400 font-mono break-all"
+                  >
                     {String((m as Record<string, unknown>).model)} --{" "}
                     {String((m as Record<string, unknown>).provider)}
                   </div>
@@ -729,7 +735,7 @@ function SyncHistoryEntry({ entry }: { entry: PricingSyncLogEntry }) {
                   return (
                     <div
                       key={i}
-                      className="text-[11px] text-zinc-400 font-mono"
+                      className="text-[11px] text-zinc-400 font-mono break-all"
                     >
                       {String(change.model)} -- Input:{" "}
                       {Number(change.input_change_pct ?? 0) > 0 ? "+" : ""}

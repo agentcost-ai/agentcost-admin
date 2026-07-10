@@ -64,8 +64,8 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, description, actions }: PageHeaderProps) {
   return (
-    <div className="flex items-start justify-between mb-8">
-      <div>
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-6 sm:mb-8">
+      <div className="min-w-0">
         <h1 className="text-xl font-semibold text-zinc-50 tracking-tight">
           {title}
         </h1>
@@ -73,7 +73,9 @@ export function PageHeader({ title, description, actions }: PageHeaderProps) {
           <p className="text-sm text-zinc-500 mt-1">{description}</p>
         )}
       </div>
-      {actions && <div className="flex items-center gap-2">{actions}</div>}
+      {actions && (
+        <div className="flex flex-wrap items-center gap-2">{actions}</div>
+      )}
     </div>
   );
 }
@@ -95,8 +97,8 @@ export function DataTable({ children, className }: DataTableProps) {
         className,
       )}
     >
-      <div className="overflow-x-auto">
-        <table className="w-full">{children}</table>
+      <div className="max-w-full overflow-x-auto">
+        <table className="w-full min-w-150">{children}</table>
       </div>
     </div>
   );
@@ -220,7 +222,7 @@ export function ConfirmModal({
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onCancel}
       />
-      <div className="relative bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+      <div className="relative bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl max-w-md w-full mx-4 p-5 sm:p-6 max-h-[85vh] overflow-y-auto">
         <h3 className="text-sm font-semibold text-zinc-100 mb-2">{title}</h3>
         <p className="text-sm text-zinc-400 mb-6 leading-relaxed">{message}</p>
         <div className="flex justify-end gap-2">
@@ -308,11 +310,11 @@ export function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-zinc-800/40">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-4 py-3 border-t border-zinc-800/40">
       <div className="text-xs text-zinc-500">
         Showing {offset + 1}--{Math.min(offset + limit, total)} of {total}
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center gap-1">
         <span className="text-xs text-zinc-600 mr-2">
           Page {currentPage} of {totalPages}
         </span>
@@ -392,8 +394,8 @@ export function SectionCard({
         className,
       )}
     >
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-zinc-800/40">
-        <div>
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-5 py-3.5 border-b border-zinc-800/40">
+        <div className="min-w-0">
           <h3 className="text-xs uppercase tracking-wider text-zinc-400 font-medium">
             {title}
           </h3>
@@ -403,7 +405,7 @@ export function SectionCard({
         </div>
         {actions}
       </div>
-      <div className="p-5">{children}</div>
+      <div className="p-4 sm:p-5">{children}</div>
     </div>
   );
 }
