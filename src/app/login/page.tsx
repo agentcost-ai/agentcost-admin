@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
-import { Shield, Loader2 } from "lucide-react";
+import { Grid2x2Plus, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const { login, isLoading } = useAdminAuth();
@@ -48,8 +48,8 @@ export default function LoginPage() {
       <div className="relative w-full max-w-sm">
         {/* Brand header */}
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/20 mb-5">
-            <Shield className="w-5 h-5 text-blue-400" aria-hidden="true" />
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-br from-sky-600/20 to-sky-600/5 border border-sky-500/20 mb-5">
+            <Grid2x2Plus className="w-5 h-5 text-sky-400" aria-hidden="true" />
           </div>
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-[0.2em]">

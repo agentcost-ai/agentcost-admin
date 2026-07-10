@@ -15,7 +15,7 @@ import {
   MessageSquare,
   ScrollText,
   LogOut,
-  Shield,
+  Grid2x2Plus,
   Play,
   Menu,
   X,
@@ -85,8 +85,8 @@ export default function AdminShell({
         {/* Brand */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-800/40">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-linear-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/20 flex items-center justify-center">
-              <Shield className="w-3.5 h-3.5 text-blue-400" />
+            <div className="w-7 h-7 rounded-lg bg-linear-to-br from-sky-600/20 to-sky-600/5 border border-sky-500/20 flex items-center justify-center">
+              <Grid2x2Plus className="w-3.5 h-3.5 text-sky-400" />
             </div>
             <div>
               <span className="text-[11px] font-mono text-zinc-300 uppercase tracking-[0.15em] block leading-none">
@@ -174,8 +174,8 @@ export default function AdminShell({
             <Menu className="w-4.5 h-4.5" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-linear-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/20 flex items-center justify-center">
-              <Shield className="w-3 h-3 text-blue-400" />
+            <div className="w-6 h-6 rounded-md bg-linear-to-br from-sky-600/20 to-sky-600/5 border border-sky-500/20 flex items-center justify-center">
+              <Grid2x2Plus className="w-3 h-3 text-sky-400" />
             </div>
             <span className="text-[11px] font-mono text-zinc-300 uppercase tracking-[0.15em]">
               AgentCost
