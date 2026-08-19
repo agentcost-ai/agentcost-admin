@@ -349,10 +349,16 @@ export default function PricingPage() {
                   {m.max_tokens ? m.max_tokens.toLocaleString() : "--"}
                 </Td>
                 <Td>
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap gap-1">
+                    {m.mode && m.mode !== "chat" && <Badge>{m.mode}</Badge>}
                     {m.supports_vision && <Badge variant="info">Vision</Badge>}
                     {m.supports_function_calling && (
                       <Badge variant="info">Functions</Badge>
+                    )}
+                    {m.deprecation_date && (
+                      <Badge variant="warning">
+                        retires {m.deprecation_date}
+                      </Badge>
                     )}
                   </div>
                 </Td>

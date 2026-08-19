@@ -485,6 +485,10 @@ export interface PricingModel {
   max_tokens: number | null;
   supports_vision: boolean;
   supports_function_calling: boolean;
+  // chat / embedding / image_generation / ...; null = unknown
+  mode: string | null;
+  // Upstream-announced retirement date (YYYY-MM-DD)
+  deprecation_date: string | null;
   source_updated_at: string | null;
   updated_at: string | null;
 }
