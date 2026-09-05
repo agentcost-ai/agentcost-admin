@@ -820,6 +820,21 @@ export interface AdminFeedback {
   updated_at: string | null;
 }
 
+export interface DocsFeedbackPageSummary {
+  page: string;
+  helpful: number;
+  not_helpful: number;
+  total: number;
+  score: number | null;
+  last_vote_at: string | null;
+}
+
+export interface DocsFeedbackSummary {
+  pages: DocsFeedbackPageSummary[];
+  total_votes: number;
+  votes_last_30d: number;
+}
+
 export interface AdminFeedbackListResponse {
   items: AdminFeedback[];
   total: number;
@@ -932,4 +947,9 @@ export async function getAdminAuditLog(params: {
   if (params.limit) qs.set("limit", String(params.limit));
   if (params.offset) qs.set("offset", String(params.offset));
   return request(`/v1/admin/audit-log?${qs.toString()}`);
+}
+
+/** Per-page tally of the public docs' "Was this page helpful?" votes. */
+export async function getDocsFeedback(): Promise<DocsFeedbackSummary> {
+  return request<DocsFeedbackSummary>("/v1/admin/docs-feedback");
 }

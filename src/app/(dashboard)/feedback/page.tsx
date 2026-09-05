@@ -5,8 +5,10 @@ import {
   listFeedback,
   updateFeedback,
   getFeedbackDetail,
+  getDocsFeedback,
   type AdminFeedback,
   type AdminFeedbackDetail,
+  type DocsFeedbackSummary,
 } from "@/lib/api";
 import { formatDate, timeAgo } from "@/lib/utils";
 import {
@@ -64,6 +66,81 @@ function priorityVariant(p: string) {
 
 function typeLabel(t: string) {
   return t.replace(/_/g, " ");
+}
+
+
+/** "Was this page helpful?" votes from the public docs, tallied per page. */
+function DocsVotesPanel() {
+  const [summary, setSummary] = useState<DocsFeedbackSummary | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    getDocsFeedback()
+      .then(setSummary)
+      .catch(() => setFailed(true));
+  }, []);
+
+  if (failed) return null;
+
+  return (
+    <section className="mb-8">
+      <div className="mb-3 flex items-baseline justify-between gap-4">
+        <div>
+          <h2 className="text-sm font-semibold text-zinc-100">Docs page votes</h2>
+          <p className="mt-0.5 text-xs text-zinc-500">
+            Anonymous &ldquo;Was this page helpful?&rdquo; answers from agentcost.tech/docs
+            {summary && (
+              <>
+                {" "}&middot; {summary.total_votes} total &middot; {summary.votes_last_30d} in the last 30 days
+              </>
+            )}
+          </p>
+        </div>
+      </div>
+      {!summary ? (
+        <LoadingState />
+      ) : summary.pages.length === 0 ? (
+        <EmptyState message="No votes yet." />
+      ) : (
+        <DataTable>
+          <table className="w-full text-sm">
+            <Thead>
+              <tr>
+                <Th>Page</Th>
+                <Th className="text-right">Helpful</Th>
+                <Th className="text-right">Not helpful</Th>
+                <Th className="text-right">Score</Th>
+                <Th className="text-right">Last vote</Th>
+              </tr>
+            </Thead>
+            <tbody>
+              {summary.pages.map((p) => (
+                <tr key={p.page} className="border-b border-zinc-800/50 last:border-0">
+                  <Td>
+                    <span className="font-mono text-xs text-zinc-200">{p.page}</span>
+                  </Td>
+                  <Td className="text-right tabular-nums text-zinc-200">{p.helpful}</Td>
+                  <Td className="text-right tabular-nums text-zinc-200">{p.not_helpful}</Td>
+                  <Td className="text-right">
+                    {p.score === null ? (
+                      <span className="text-zinc-500">&mdash;</span>
+                    ) : (
+                      <Badge variant={p.score >= 70 ? "success" : p.score >= 40 ? "warning" : "danger"}>
+                        {p.score}%
+                      </Badge>
+                    )}
+                  </Td>
+                  <Td className="text-right text-zinc-400">
+                    {p.last_vote_at ? timeAgo(p.last_vote_at) : "\u2014"}
+                  </Td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </DataTable>
+      )}
+    </section>
+  );
 }
 
 export default function FeedbackPage() {
@@ -127,6 +204,8 @@ export default function FeedbackPage() {
         title="Feedback Management"
         description={`${total} feedback items`}
       />
+
+      <DocsVotesPanel />
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-2 mb-4">
