@@ -724,7 +724,7 @@ function FeedbackDetailPanel({
                           {timeAgo(c.created_at)}
                         </span>
                       </div>
-                      <div className="text-sm text-zinc-400">{c.comment}</div>
+                      <div className="text-sm text-zinc-400 whitespace-pre-wrap break-words">{c.comment}</div>
                     </div>
                   ))}
                 </div>
